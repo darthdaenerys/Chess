@@ -1,0 +1,10 @@
+{
+    "ROWS": 8,
+    "COLS": 8,
+    "window_width": 1280,
+    "window_height": 720,
+    "helper": true,
+    "player": "random",
+    "theme_idx": 6,
+    "background_idx": 3
+}
