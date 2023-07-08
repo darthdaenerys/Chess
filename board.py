@@ -14,3 +14,9 @@ def create_surfaces():
             path=os.path.join('pieces',color,f'{image}.png')
             surface=pygame.image.load(path).convert_alpha()
             textures[color][image]=surface
+
+class Board:
+    def __init__(self,theme,down):
+        f=open('settings.json')
+        self.settings=json.load(f)
+        del f
