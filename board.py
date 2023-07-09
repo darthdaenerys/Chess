@@ -20,3 +20,8 @@ class Board:
         f=open('settings.json')
         self.settings=json.load(f)
         del f
+        
+    def _create(self):
+        for row in range(self.settings['ROWS']):
+            for col in range(self.settings['COLS']):
+                self.squares[row][col]=Square(row, col)
