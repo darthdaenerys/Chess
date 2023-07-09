@@ -57,3 +57,7 @@ class Board:
         col=4 if self.down=='white' else 3
         self.squares[other_piece][col]=Square(other_piece, col,King(color,textures[color]['king'].get_rect()))
     
+    def calc_moves(self,piece,row,col,check=True):
+        '''
+            Calculates all the valid moves of a piece for a specific position
+        '''
