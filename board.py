@@ -86,3 +86,10 @@ class Board:
                                 break
                         else: break
                     else: break
+        
+    def show_last_move(self,display_surface):
+        if self.last_move:
+            for square in [self.last_move.initial,self.last_move.final]:
+                color=self.theme.trace_color.light if (square.row+square.col)%2==0 else self.theme.trace_color.dark
+                rect=pygame.rect.Rect(61+square.col*80,40+square.row*80,80,80)
+                pygame.draw.rect(display_surface,color,rect)
