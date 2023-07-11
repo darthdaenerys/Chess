@@ -105,3 +105,14 @@ class Board:
                                 break
                         else: break
                     else: break
+
+        def castle_possible(rook_col,king_col) -> bool:
+            if rook_col<king_col:
+                for j in range(rook_col+1,king_col):
+                    if not self.squares[row][j].isempty():
+                        return False
+            else:
+                for j in range(king_col+1,rook_col):
+                    if not self.squares[row][j].isempty():
+                        return False
+            return True
