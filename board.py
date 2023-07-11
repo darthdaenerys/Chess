@@ -87,9 +87,21 @@ class Board:
                         else: break
                     else: break
         
-    def show_last_move(self,display_surface):
-        if self.last_move:
-            for square in [self.last_move.initial,self.last_move.final]:
-                color=self.theme.trace_color.light if (square.row+square.col)%2==0 else self.theme.trace_color.dark
-                rect=pygame.rect.Rect(61+square.col*80,40+square.row*80,80,80)
-                pygame.draw.rect(display_surface,color,rect)
+        def diagonal_moves():
+            for x,y in [(1,1),(1,-1),(-1,-1),(-1,1)]:
+                for i,j in [(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7)]:
+                    newrow=row+i*x
+                    newcol=col+j*y
+                    if Square.inrange(newrow,newcol):
+                        if self.squares[newrow][newcol].isempty_or_rival(piece.color):
+                            final_piece=self.squares[newrow][newcol].piece
+                            move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                            if check:
+                                if not self.incheck(piece,move):
+                                    piece.add_move(move)
+                            else:
+                                piece.add_move(move)
+                            if self.squares[newrow][newcol].has_rival_piece(piece.color):
+                                break
+                        else: break
+                    else: break
