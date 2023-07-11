@@ -21,7 +21,14 @@ class Board:
         self.settings=json.load(f)
         del f
         create_surfaces()
-        
+        self.down=down
+        self.squares=[[0,0,0,0,0,0,0,0] for _ in range(self.settings['ROWS'])]
+        self._create()
+        self._add_pieces('white')
+        self._add_pieces('black')
+        self.last_move=None
+        self.theme=theme
+    
     def _create(self):
         for row in range(self.settings['ROWS']):
             for col in range(self.settings['COLS']):
@@ -61,3 +68,21 @@ class Board:
         '''
             Calculates all the valid moves of a piece for a specific position
         '''
+        def linear_moves():
+            for (j,k) in [(1,0),(-1,0),(0,1),(0,-1)]:
+                for i in range(1,8):
+                    newrow=row+i*j
+                    newcol=col+i*k
+                    if Square.inrange(newrow,newcol):
+                        if self.squares[newrow][newcol].isempty_or_rival(piece.color):
+                            final_piece=self.squares[newrow][newcol].piece
+                            move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                            if check:
+                                if not self.incheck(piece,move):
+                                    piece.add_move(move)
+                            else:
+                                piece.add_move(move)
+                            if self.squares[newrow][newcol].has_rival_piece(piece.color):
+                                break
+                        else: break
+                    else: break
