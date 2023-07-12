@@ -116,3 +116,11 @@ class Board:
                     if not self.squares[row][j].isempty():
                         return False
             return True
+
+        def en_passant_possible(final_col,r):
+            if Square.inrange(final_col) and row==r:
+                if self.squares[row][final_col].has_rival_piece(piece.color):
+                    if isinstance(self.squares[row][final_col].piece,Pawn):
+                        if self.squares[row][final_col].piece.en_passant:
+                            return True
+            return False
