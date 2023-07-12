@@ -155,3 +155,11 @@ class Board:
                                 piece.add_move(move)
                         else:
                             piece.add_move(move)
+            
+            # en-passant moves
+            if self.down=='white':
+                r=3 if piece.color=='white' else 4
+                newrow=2 if piece.color=='white' else 5
+            else:
+                r=3 if piece.color=='black' else 4
+                newrow=2 if piece.color=='black' else 5
