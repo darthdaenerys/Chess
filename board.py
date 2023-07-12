@@ -141,3 +141,17 @@ class Board:
                             piece.add_move(move)
                     else: break
                 else: break
+            
+            # diagonal captures
+            for i in [1,-1]:
+                newrow=row+piece.direction
+                newcol=col+i
+                if Square.inrange(newrow,newcol):
+                    if self.squares[newrow][newcol].has_rival_piece(piece.color):
+                        final_piece=self.squares[newrow][newcol].piece
+                        move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                        if check:
+                            if not self.incheck(piece,move):
+                                piece.add_move(move)
+                        else:
+                            piece.add_move(move)
