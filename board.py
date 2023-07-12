@@ -124,3 +124,20 @@ class Board:
                         if self.squares[row][final_col].piece.en_passant:
                             return True
             return False
+
+        if isinstance(piece, Pawn):
+            # vertical moves
+            for i in range(2-piece.moved):
+                newrow=row+(i+1)*piece.direction
+                newcol=col
+                if Square.inrange(newrow,newcol):
+                    if self.squares[newrow][newcol].isempty():
+                        final_piece=self.squares[newrow][newcol].piece
+                        move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                        if check:
+                            if not self.incheck(piece,move):
+                                piece.add_move(move)
+                        else:
+                            piece.add_move(move)
+                    else: break
+                else: break
