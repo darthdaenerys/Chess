@@ -183,3 +183,6 @@ class Board:
                         piece.add_move(move)
                 else:
                     piece.add_move(move)
+
+        if isinstance(piece, Rook):
+            linear_moves()
