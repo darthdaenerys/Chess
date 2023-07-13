@@ -186,3 +186,6 @@ class Board:
 
         if isinstance(piece, Rook):
             linear_moves()
+
+        if isinstance(piece, Bishop):
+            diagonal_moves()
