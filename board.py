@@ -173,3 +173,13 @@ class Board:
                         piece.add_move(move)
                 else:
                     piece.add_move(move)
+
+            # right en passant
+            if en_passant_possible(col+1,r):
+                final_piece=self.squares[row][col+1].piece
+                move=Move(Square(row,col),Square(newrow,col+1,final_piece))
+                if check:
+                    if not self.incheck(piece,move):
+                        piece.add_move(move)
+                else:
+                    piece.add_move(move)
