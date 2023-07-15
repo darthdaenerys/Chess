@@ -195,3 +195,12 @@ class Board:
             for move in moves:
                 newrow=row+move[0]
                 newcol=col+move[1]
+                if Square.inrange(newrow,newcol):
+                    if self.squares[newrow][newcol].isempty_or_rival(piece.color):
+                        final_piece=self.squares[newrow][newcol].piece
+                        move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                        if check:
+                            if not self.incheck(piece,move):
+                                piece.add_move(move)
+                        else:
+                            piece.add_move(move)
