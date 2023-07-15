@@ -208,3 +208,17 @@ class Board:
         if isinstance(piece, Queen):
             linear_moves()
             diagonal_moves()
+
+        if isinstance(piece, King):
+            for i,j in [(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1)]:
+                newrow=row+i
+                newcol=col+j
+                if Square.inrange(newrow,newcol):
+                    if self.squares[newrow][newcol].isempty_or_rival(piece.color):
+                        final_piece=self.squares[newrow][newcol].piece
+                        move=Move(Square(row,col),Square(newrow,newcol,final_piece))
+                        if check:
+                            if not self.incheck(piece,move):
+                                piece.add_move(move)
+                        else:
+                            piece.add_move(move)
