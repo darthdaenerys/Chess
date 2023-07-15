@@ -204,3 +204,7 @@ class Board:
                                 piece.add_move(move)
                         else:
                             piece.add_move(move)
+
+        if isinstance(piece, Queen):
+            linear_moves()
+            diagonal_moves()
