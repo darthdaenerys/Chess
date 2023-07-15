@@ -189,3 +189,9 @@ class Board:
 
         if isinstance(piece, Bishop):
             diagonal_moves()
+
+        if isinstance(piece, Knight):
+            moves=[(-2,1),(-1,2),(1,2),(2,1),(2,-1),(1,-2),(-1,-2),(-2,-1)]
+            for move in moves:
+                newrow=row+move[0]
+                newcol=col+move[1]
