@@ -222,3 +222,19 @@ class Board:
                                 piece.add_move(move)
                         else:
                             piece.add_move(move)
+            
+            if not piece.moved:
+
+                # king side castling
+                num=0 if self.down=='black' else 7
+                king_rook=self.squares[row][num].piece
+                if isinstance(king_rook,Rook) and not king_rook.moved and castle_possible(num,col):
+                    piece.king_rook=king_rook
+                    if self.down=='white':
+                        move1=Move(Square(row,col),Square(row,col,piece))
+                        move2=Move(Square(row,col),Square(row,col+1,piece))
+                        move3=Move(Square(row,col),Square(row,col+2,piece))
+                    else:
+                        move1=Move(Square(row,col),Square(row,col,piece))
+                        move2=Move(Square(row,col),Square(row,col-1,piece))
+                        move3=Move(Square(row,col),Square(row,col-2,piece))
