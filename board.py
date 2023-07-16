@@ -242,3 +242,17 @@ class Board:
                         if not self.incheck(piece,move1) and not self.incheck(piece,move2) and not self.incheck(piece,move3):
                             piece.add_move(move3)
                             king_rook.add_move(Move(Square(row,7),Square(row,5))) if self.down=='white' else king_rook.add_move(Move(Square(row,0),Square(row,2)))
+
+                # queen side castling
+                num=0 if self.down=='white' else 7
+                queen_rook=self.squares[row][num].piece
+                if isinstance(queen_rook,Rook) and not queen_rook.moved and castle_possible(num,col):
+                    piece.queen_rook=queen_rook
+                    if self.down=='white':
+                        move1=Move(Square(row,col),Square(row,col,piece))
+                        move2=Move(Square(row,col),Square(row,col-1,piece))
+                        move3=Move(Square(row,col),Square(row,col-2,piece))
+                    else:
+                        move1=Move(Square(row,col),Square(row,col,piece))
+                        move2=Move(Square(row,col),Square(row,col+1,piece))
+                        move3=Move(Square(row,col),Square(row,col+2,piece))
