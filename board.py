@@ -238,3 +238,7 @@ class Board:
                         move1=Move(Square(row,col),Square(row,col,piece))
                         move2=Move(Square(row,col),Square(row,col-1,piece))
                         move3=Move(Square(row,col),Square(row,col-2,piece))
+                    if check:
+                        if not self.incheck(piece,move1) and not self.incheck(piece,move2) and not self.incheck(piece,move3):
+                            piece.add_move(move3)
+                            king_rook.add_move(Move(Square(row,7),Square(row,5))) if self.down=='white' else king_rook.add_move(Move(Square(row,0),Square(row,2)))
