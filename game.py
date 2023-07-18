@@ -34,3 +34,12 @@ class Game:
                 self.down='black'
         else:
             self.down='white' if self.down=='black' else 'black'
+        self.board=Board(self.config.theme,self.down)
+        self.opponent='black' if self.down=='white' else 'white'
+        self.next_player='white'
+        self.hovered_square=None
+        image=os.listdir('backgrounds')[self.settings['background_idx']]
+        self.background_surface=pygame.image.load(os.path.join('backgrounds',image)).convert()
+        self.alphacol={0:'a',1:'b',2:'c',3:'d',4:'e',5:'f',6:'g',7:'h'}
+        self.calculate_all_moves('white')
+        self.sound(start=True)
