@@ -16,3 +16,12 @@ def _create_surfaces():
             path=os.path.join('pieces',color,f'{image}.png')
             surface=pygame.image.load(path).convert_alpha()
             textures[color][image]=surface
+
+class Game:
+    def __init__(self,swap=False):
+        f=open('settings.json')
+        self.settings=json.load(f)
+        f.close()
+        del f
+        self.config=Config()
+        _create_surfaces()
