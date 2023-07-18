@@ -25,3 +25,12 @@ class Game:
         del f
         self.config=Config()
         _create_surfaces()
+        if not swap:
+            if self.settings['player']=='random':
+                self.down=random.choice(['white','black'])
+            elif self.settings['player']=='white':
+                self.down='white'
+            else:
+                self.down='black'
+        else:
+            self.down='white' if self.down=='black' else 'black'
