@@ -43,3 +43,6 @@ class Game:
         self.alphacol={0:'a',1:'b',2:'c',3:'d',4:'e',5:'f',6:'g',7:'h'}
         self.calculate_all_moves('white')
         self.sound(start=True)
+
+    def render_background(self,display_surface):
+        display_surface.blit(self.background_surface,(0,0))
