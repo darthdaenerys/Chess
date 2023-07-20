@@ -46,3 +46,11 @@ class Game:
 
     def render_background(self,display_surface):
         display_surface.blit(self.background_surface,(0,0))
+    
+    def chess_board(self,display_surface):
+        theme=self.config.theme
+        for row in range(self.settings["ROWS"]):
+            for col in range(self.settings["COLS"]):
+                color=theme.square_color.light if (row+col)%2==0 else theme.square_color.dark
+                rect=pygame.rect.Rect(61+col*80,40+row*80,80,80)
+                pygame.draw.rect(display_surface,color,rect)
