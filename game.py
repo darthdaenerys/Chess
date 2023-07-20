@@ -54,3 +54,6 @@ class Game:
                 color=theme.square_color.light if (row+col)%2==0 else theme.square_color.dark
                 rect=pygame.rect.Rect(61+col*80,40+row*80,80,80)
                 pygame.draw.rect(display_surface,color,rect)
+    
+    def render_pieces(self,display_surface,drag_piece):
+        self.update_pieces(drag_piece)
