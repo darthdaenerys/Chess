@@ -57,3 +57,11 @@ class Game:
     
     def render_pieces(self,display_surface,drag_piece):
         self.update_pieces(drag_piece)
+        
+        # blit piece surfaces on the chess board
+        for row in range(self.settings["ROWS"]):
+            for col in range(self.settings["COLS"]):
+                if self.board.squares[row][col].has_piece() and self.board.squares[row][col].piece!=drag_piece:
+                    piece=self.board.squares[row][col].piece
+                    piece.rect=textures[piece.color][piece.name].get_rect(center=self.board.squares[row][col].rect.center)
+                    display_surface.blit(textures[piece.color][piece.name],piece.rect.topleft)
