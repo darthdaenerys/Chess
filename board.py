@@ -261,3 +261,29 @@ class Board:
                             piece.add_move(move3)
                             queen_rook.add_move(Move(Square(row,0),Square(row,3))) if self.down=='white' else queen_rook.add_move(Move(Square(row,7),Square(row,4)))
     
+    def move_piece(self,piece,move,castle=False,check=False):
+        initial_square=move.initial
+        final_square=move.final
+
+        # remove opponent's pawn after en passant
+        if isinstance(piece,Pawn):
+            diff=final_square.col-initial_square.col
+            if diff!=0 and self.squares[final_square.row][final_square.col].isempty():
+                self.squares[initial_square.row][initial_square.col+diff].piece=None
+
+        self.squares[initial_square.row][initial_square.col].piece=None
+        self.squares[final_square.row][final_square.col].piece=piece
+        piece.moved=True
+        
+        if not castle:
+            self.last_move=move
+            if isinstance(piece,King) and self.castling(initial_square,final_square):
+                diff=final_square.col-initial_square.col
+                if self.down=='white':
+                    rook=piece.queen_rook if diff<0 else piece.king_rook
+                else:
+                    rook=piece.queen_rook if diff>0 else piece.king_rook
+                self.move_piece(rook,rook.moves[-1],castle=True)
+
+        if isinstance(piece,Pawn) and not check:
+            self.check_promotion(piece,final_square,check)
