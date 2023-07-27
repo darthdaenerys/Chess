@@ -33,23 +33,3 @@ class Dragger:
         x-=30
         y-=20
         return x,y
-    
-    def save_initials(self,x,y,row,col,piece):
-        self.piece=piece
-        self.initial_pos=(x,y)
-        self.initial_row,self.initial_col=row,col
-        self.piece.rect.center=self.initial_pos
-    
-    def drag_piece(self,display_surface):
-        self.update()
-        display_surface.blit(drag_textures[self.piece.color][self.piece.name],self.piece.rect.topleft)
-    
-    def undrag(self):
-        if self.piece!=None:
-            self.piece.texture_path=os.path.join(self.piece.root_path,f'{self.piece.name}.png')
-            self.piece=None
-            self.dragging=False
-    
-    def update(self):
-        self.position=self.get_position()
-        self.piece.rect.center=self.position
