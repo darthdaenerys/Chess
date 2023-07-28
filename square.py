@@ -16,3 +16,18 @@ class Square:
             if arg<0 or arg>7:
                 return False
         return True
+    
+    def isempty(self) -> bool:
+        return self.piece==None
+    
+    def has_team_piece(self,color) -> bool:
+        return self.piece!=None and self.piece.color==color
+    
+    def has_rival_piece(self,color) -> bool:
+        return self.piece!=None and self.piece.color!=color
+    
+    def isempty_or_rival(self,color) -> bool:
+        return self.has_rival_piece(color) or self.isempty()
+    
+    def has_rival_piece_or_team_piece(self,color) -> bool:
+        return self.has_rival_piece(color) or self.has_team_piece(color)
