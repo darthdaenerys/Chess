@@ -287,3 +287,94 @@ class Board:
 
         if isinstance(piece,Pawn) and not check:
             self.check_promotion(piece,final_square,check)
+    
+    def check_promotion(self,piece,final,check=False):
+        if check:
+            return final.row==0 or final.row==7
+        elif final.row==0 or final.row==7:
+            window=Tk()
+            def buttonclicked(message):
+                if message=='queen':
+                    self.squares[final.row][final.col].piece=Queen(piece.color,textures[piece.color]['queen'].get_rect())
+                elif message=='rook':
+                    self.squares[final.row][final.col].piece=Rook(piece.color,textures[piece.color]['rook'].get_rect())
+                elif message=='knight':
+                    self.squares[final.row][final.col].piece=Knight(piece.color,textures[piece.color]['knight'].get_rect())
+                else:
+                    self.squares[final.row][final.col].piece=Bishop(piece.color,textures[piece.color]['bishop'].get_rect())
+                window.destroy()
+            bishop=Button(window,text='Bishop',command=lambda m='bishop':buttonclicked(m))
+            bishop.place(x=30,y=50)
+            knight=Button(window,text='Knight',command=lambda m='knight':buttonclicked(m))
+            knight.place(x=120,y=50)
+            queen=Button(window,text='Queen',command=lambda m='queen':buttonclicked(m))
+            queen.place(x=30,y=120)
+            rook=Button(window,text='Rook',command=lambda m='rook':buttonclicked(m))
+            rook.place(x=120,y=120)
+
+            window.title('Pawn Promotion')
+            window.geometry("200x200+10+10")
+            window.mainloop()
+
+    def incheck(self,piece,move) -> bool:
+        temp_piece=copy.deepcopy(piece)
+        temp_board=copy.deepcopy(self)
+
+        temp_board.move_piece(temp_piece,move,castle=True,check=True)
+        for row in range(self.settings['ROWS']):
+            for col in range(self.settings['COLS']):
+                if temp_board.squares[row][col].has_rival_piece(piece.color):
+                    temp_board.calc_moves(temp_board.squares[row][col].piece,row,col,False)
+                    for m in temp_board.squares[row][col].piece.moves:
+                        if isinstance(m.final.piece,King):
+                            return True
+        return False
+
+    def castling(self,initial,final) -> bool:
+        return abs(initial.col-final.col)==2
+    
+    def set_en_passant(self,piece):
+        if isinstance(piece,Pawn):
+            for row in range(self.settings['ROWS']):
+                for col in range(self.settings['COLS']):
+                    if isinstance(self.squares[row][col].piece,Pawn):
+                        self.squares[row][col].piece.en_passant=False
+            piece.en_passant=True
+
+    def king_incheck(self,rival_piece,row,col):
+        self.calc_moves(rival_piece,row,col,False)
+        for move in rival_piece.moves:
+            if isinstance(move.final.piece,King):
+                return True
+        return False
+    
+    def validate_move(self,piece,move) -> tuple:
+        for possible_move in piece.moves:
+            capture=False
+            castle=False
+            if Square.inrange(move.final.row,move.final.col):
+                if self.squares[move.final.row][move.final.col].has_rival_piece(piece.color):
+                    capture=True
+                if isinstance(piece,Pawn):
+                    diff=move.final.col-move.initial.col
+                    if diff!=0 and self.squares[move.final.row][move.final.col].isempty():
+                        capture=True
+                if isinstance(piece,King) and abs(move.final.col-move.initial.col)==2:
+                    castle=True
+            if possible_move.final.row==move.final.row and possible_move.final.col==move.final.col:
+                return True,capture,castle,False
+        return False,False,False,False
+
+    def show_moves(self,piece,row,col,surface):
+        if self.settings['helper']:
+            for move in piece.moves:
+                color=self.theme.moves_color.light if (row+col)%2==0 else self.theme.moves_color.dark
+                rect=pygame.rect.Rect(61+move.final.col*80,40+move.final.row*80,80,80).inflate(-4,-4)
+                pygame.draw.rect(surface, color, rect)
+    
+    def show_last_move(self,display_surface):
+        if self.last_move:
+            for square in [self.last_move.initial,self.last_move.final]:
+                color=self.theme.trace_color.light if (square.row+square.col)%2==0 else self.theme.trace_color.dark
+                rect=pygame.rect.Rect(61+square.col*80,40+square.row*80,80,80)
+                pygame.draw.rect(display_surface,color,rect)
