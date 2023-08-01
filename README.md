@@ -7,7 +7,7 @@ This is a chess GUI built with the Pygame library. You can use it as a standalon
 ## Usage
 
 To install, clone this repository to your local machine git clone `https://github.com/darthdaenerys/Chess.git`
-Change to cloned directory `cd Little-Big-Snake`
+Change to cloned directory `cd Chess`
 
 Install necessary requirements `pip install -r requirements.txt`.
 
